@@ -26,6 +26,8 @@ $router->get("/", "Root:index");
  * The controller must be in the namespace Dash\Controller
  */
 $router->group("api")->namespace("App\APi\Controller");
+$router->get("/", "Root:index");
+$router->post("/user/storage", "UserController:storage");
 
 /**
  * Group Error
