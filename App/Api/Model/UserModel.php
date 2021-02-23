@@ -12,11 +12,11 @@ class UserModel extends Model{
     private $img;
     private $password;
 
-    const Entidade = "user";
+    private $entidadeD = "user";
 
     public function __construct()
     {
-        $this->setEntidade(self::Entidade);
+        $this->setEntidade($this->entidadeD);
     }
 
     public function getName(){
@@ -76,7 +76,7 @@ class UserModel extends Model{
 
     public function save(){
 
-        $stmt = $this->conectar()->prepare("INSERT INTO user (name,email,description,img,password) VALUES(:name,:email,:description,:img,:password)");
+        $stmt = $this->conectar()->prepare("INSERT INTO {$this->entidadeD} (name,email,description,img,password) VALUES(:name,:email,:description,:img,:password)");
 
         $stmt->BindParam(":name",$this->name,PDO::PARAM_STR);
         $stmt->BindParam(":email",$this->email,PDO::PARAM_STR);
@@ -93,5 +93,42 @@ class UserModel extends Model{
 
             return false;
         } 
+    }
+
+    public function edit($id){
+
+        $stmt = $this->conectar()->prepare("UPDATE {$this->entidadeD} SET name =:name, email =:email, description =:description, img =:img, password =:password WHERE id =:id");
+
+        $stmt->BindParam(":id",$id,PDO::PARAM_INT);
+        $stmt->BindParam(":name",$this->name,PDO::PARAM_STR);
+        $stmt->BindParam(":email",$this->email,PDO::PARAM_STR);
+        $stmt->BindParam(":description",$this->description,PDO::PARAM_STR);
+        $stmt->BindParam(":img",$this->img,PDO::PARAM_STR);
+        $stmt->BindParam(":password",$this->password,PDO::PARAM_STR);
+
+		#execute()
+	    if ($stmt->execute()) {
+	    	
+            return true;
+        } 
+        else{
+
+            return false;
+        }      
+    }
+
+    public function find($id){
+
+        return $this->get($id);
+    }
+
+    public function all(){
+
+        return $this->getAll();
+    }
+
+    public function delete($id){
+
+        return $this->distroy($id);
     }
 }

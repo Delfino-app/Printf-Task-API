@@ -52,4 +52,43 @@ class Model{
 			return $e->getMessage();
 		}
     }
+
+
+    public function get($id){
+
+        $stmt = $this->conectar()->prepare("SELECT * FROM {$this->entidade} WHERE id =:id");
+
+        $stmt->BindParam(":id",$id,PDO::PARAM_INT);
+
+		#execute()
+	    $stmt->execute();
+	    	
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getAll(){
+
+        $stmt = $this->conectar()->prepare("SELECT * FROM {$this->entidade} ORDER BY id DESC");
+
+		#execute()
+	    $stmt->execute();
+	    	
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function distroy($id){
+
+        $stmt = $this->conectar()->prepare("DELETE FROM {$this->entidade} WHERE id =:id");
+
+        $stmt->BindParam(":id",$id,PDO::PARAM_INT);
+
+        if($stmt->execute()){
+
+            return true;
+        }
+        else{
+
+            return false;
+        }
+    }
 }
