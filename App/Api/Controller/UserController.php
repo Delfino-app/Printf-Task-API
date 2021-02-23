@@ -7,7 +7,6 @@ use App\Api\Controller\Helpers\delfinoapp;
 
 class UserController{
 
-
     public function index($data = []){
 
         if(isset($data["id"])){
